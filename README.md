@@ -22,7 +22,7 @@
 ```
 Создаст структуру $.MAIN.menu, каждый элемент структуры является классом strapony.
 ### func ###
-Дополним структуру собственной функцией
+Дополним структуру новой функцией
 ```js
 $.MAIN.menu.test = function(){
     alert('Strapony');
@@ -34,7 +34,7 @@ $.MAIN.menu.func('test','div','onclick');
 ```
 выборка происходит по правилам https://www.w3schools.com/cssref/css_selectors.asp, всем элементам назначается атрибут "data-test" равный номеру в выборке.
 ### ШАБЛОНЫ ###
-Далее создадим шаблон:
+создадим шаблон:
 ```html
     <div id="TPL.card">
         <span>${this.name}</span>
@@ -42,9 +42,10 @@ $.MAIN.menu.func('test','div','onclick');
     </div>
 ```
 все елементы которые начинаются с "TPL." автоматические удаляются со страницы.
+шаблон заполняется по правилам https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals.
 тепер заполним его и дабавим в любой раздел через функцию set:
 ```js
-    let id    = 1;
+    let id = 1;
     $.TPL.card.name = 'test';
     $.TPL.card.desc = 'example';
     $.MAIN.menu.set(id,$.TPL.card);
