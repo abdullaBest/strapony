@@ -1,8 +1,6 @@
 "use strict"
 
-let $ = {
-
-}
+let $ = {}
 
 class strapony {
     constructor(){
@@ -43,33 +41,32 @@ class strapony {
 }
 
 (function(){
-    const splitter = '.';
-    const c1 = '\\u0060';
-    const c2 = '\\u0027';
+    // проходим по все элементам dom дерева и собираем только с выставленным атрибутом id
     let l = document.querySelectorAll('*[id]');
     for (let i=0;i<l.length;i++){
         let el = l[i]; 
-        let s = el.id.split(splitter);
-        if (s.length!==0){
-            let a = $;
-            for (let i=0;i<s.length;i++){
-                let name = s[i];
-                let b = a[name];
-                if (b===undefined){
-                    b = new strapony();
-                    a[name] = b;
-                }
-                a = b;
+        let s = el.id.split('.');   // разбиваем идентификатор на несколько
+        if (s.length===0){ continue }
+        let a = $;
+        // заполняем
+        for (let i=0;i<s.length;i++){
+            let name = s[i];
+            let b = a[name];
+            if (b===undefined){     
+                b = new strapony();
+                a[name] = b;
             }
-            a.el = el;
-            if (s[0]==='TPL'){ 
-                el.parentNode.removeChild(el);
-                el.removeAttribute('id');
-                let s = el.innerHTML;
-                s = s.replace(/`/g,c1);
-                s = s.replace(/'/g,c2);
-                a._call = new Function('d','if(d===null){ d = this.el.cloneNode(false); } d.innerHTML=`' + s + '`; return d;');
-            }
+            a = b;
         }
+        a.el = el;
+        // обрабатываем шаблоны
+        if (s[0]==='TPL'){ 
+            el.parentNode.removeChild(el);  // убераем его из документа
+            el.removeAttribute('id');       // убераем атрибут id
+            let s = el.innerHTML.replace(/`/g,'\\u0060').replace(/'/g,'\\u0027'); // заменяем кавычки на юникод
+            // создаем функцию шаблонизатора для достижения максимальной производительности
+            a._call = new Function('d','if(d===null){ d = this.el.cloneNode(false); } d.innerHTML=`' + s + '`; return d;');
+        }
+        
     }
 })()
