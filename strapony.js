@@ -42,7 +42,7 @@ class strapony {
     }
 }
 
-function prepare_strapony(){
+(function(){
     const splitter = '.';
     const c1 = '\\u0060';
     const c2 = '\\u0027';
@@ -72,6 +72,4 @@ function prepare_strapony(){
             }
         }
     }
-}
-
-prepare_strapony();
+})()
