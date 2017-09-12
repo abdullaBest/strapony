@@ -1,5 +1,6 @@
 # strapony
 Микро библиотека для работы с DOM деревом и шаблонами.
+Видео: https://www.youtube.com/watch?v=ROSgMBnBV-8
 
 ## Подключение ##
 ```html
