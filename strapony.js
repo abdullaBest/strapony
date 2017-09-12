@@ -1,13 +1,16 @@
 "use strict"
 
+// глобальный объект в котором хранится структура
 let $ = {}
 
+//   
 class strapony {
     constructor(){
         this.el    = null;
         this._call = null;
         this._list = null;
-    }
+    }   
+    // добавляет шаблон в элемент
     set(id,a){
         if (this._list===null){
             this._list = new Map();
@@ -21,6 +24,7 @@ class strapony {
             a._call(b);
         }
     }
+    // удаляет шаблон из элемента
     del(id){
         if (this._list!==null){
             let b = this._list.get(id);
@@ -30,6 +34,7 @@ class strapony {
             }
         }
     }
+    // назначает событие на дочерние элементы
     func(name,query,event){
         let l = this.el.querySelectorAll(query);
         for (let i=0;i<l.length;i++){
