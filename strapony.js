@@ -9,7 +9,7 @@ class strapony {
         this.el    = null;
         this._call = null;
         this._list = null;
-    }   
+    }
     // добавляет шаблон в элемент
     set(id,a){
         if (this._list===null){
@@ -17,7 +17,8 @@ class strapony {
         }
         let b = this._list.get(id);
         if (b===undefined){
-            b = a._call(null);
+            let b = a.el.cloneNode(false);
+            a._call(b);
             this._list.set(id,b);
             this.el.appendChild(b);
         }else{
@@ -33,6 +34,14 @@ class strapony {
                 this._list.delete(id);
             }
         }
+    }
+    // удаляет все созданные шаблоны
+    clear(){
+        if (this._list===null){return;}
+        for (let a of this._list){
+           a[1].parentNode.removeChild(a[1]);
+           this._list.delete(a[0]);
+        }    
     }
     // назначает событие на дочерние элементы
     func(name,query,event){
@@ -70,7 +79,7 @@ class strapony {
             el.removeAttribute('id');       // убераем атрибут id
             let s = el.innerHTML.replace(/`/g,'\\u0060').replace(/'/g,'\\u0027'); // заменяем кавычки на юникод
             // создаем функцию шаблонизатора для достижения максимальной производительности
-            a._call = new Function('d','if(d===null){ d = this.el.cloneNode(false); } d.innerHTML=`' + s + '`; return d;');
+            a._call = new Function('d','d.innerHTML=`' + s + '`;');
         }
         
     }
